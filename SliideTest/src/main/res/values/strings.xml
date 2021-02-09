@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="user_list">Users</string>
+    <string name="onboarding_login_generic_error">Something whent wrong</string>
+    <string name="feature_not_implemented">This Feature is not yet implemented</string>
+    <string name="no_elements">There are no elements</string>
+</resources>
