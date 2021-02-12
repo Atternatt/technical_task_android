@@ -1,5 +1,6 @@
 package com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor
 
+import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.Gender
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.User
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.queries.LastUsersQuery
 import com.m2f.sliidetest.SliideTest.core_architecture.repository.GetRepository
@@ -23,8 +24,8 @@ class DefaultGetAllUsersInteractorTest {
     private val useCaseTest = DefaultGetAllUsersInteractor(getRepository)
 
     private val expectedUsers: List<User> = listOf(
-        User(0L, "a", "a@a", "Male"),
-        User(1L, "b", "b@b", "Female")
+        User(0L, "a", "a@a", Gender.MALE),
+        User(1L, "b", "b@b", Gender.FEMALE)
     )
 
     @Before

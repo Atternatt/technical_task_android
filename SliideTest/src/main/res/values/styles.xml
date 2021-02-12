@@ -7,15 +7,13 @@
         <item name="colorOnPrimary">@android:color/white</item>
         <item name="colorSecondary">@color/colorAccent</item>
         <item name="colorSecondaryVariant">@color/colorAccent</item>
-        <item name="colorOnSecondary">@color/coreTextDark</item>
+        <item name="colorOnSecondary">@android:color/white</item>
         <item name="colorSurface">@android:color/white</item>
         <item name="colorOnError">@android:color/white</item>
         <item name="colorOnSurface">@color/coreTextDark</item>
         <item name="android:textColorPrimary">@color/coreTextDark</item>
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <item name="colorOnBackground">@color/coreTextDark</item>
-        <item name="colorControlHighlight">@android:color/white</item>
-        <item name="colorControlNormal">@android:color/white</item>
         <item name="android:includeFontPadding">false</item>
         <item name="materialButtonStyle">@style/defaultButtonStyle</item>
         <item name="textInputStyle">@style/AppTextField</item>

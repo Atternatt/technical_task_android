@@ -35,7 +35,7 @@ class UsersActivity : AppCompatActivity(), View.OnCreateContextMenuListener {
         usersViewModel.loadUsers()
 
         binding.addUser.setOnClickListener {
-            usersViewModel.addUser()
+            //usersViewModel.addUser()
         }
 
     }

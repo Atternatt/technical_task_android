@@ -2,12 +2,15 @@ package com.m2f.sliidetest.SliideTest.presentation.feature.users
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.AddUserInteractor
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.GetAllUsersInteractor
+import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.Gender
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.User
 import com.m2f.sliidetest.SliideTest.presentation.FailureType
 import com.m2f.sliidetest.SliideTest.presentation.ViewModelState
 import io.mockk.*
 import io.reactivex.Observable
+import io.reactivex.Single
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -19,22 +22,27 @@ class UserViewModelTest {
     @get:Rule
     val instantExecutor: TestRule = InstantTaskExecutorRule()
 
+    //region mock values
     private val observer = mockk<Observer<ViewModelState<List<User>>>>()
 
     private val getAllUsersInteractor: GetAllUsersInteractor = mockk()
 
-    private val viewModel: UserViewModel = UserViewModel(getAllUsersInteractor)
+    private val addUserInteractor: AddUserInteractor = mockk()
 
-    //region mock values
+    private val viewModel: UserViewModel = UserViewModel(getAllUsersInteractor, addUserInteractor)
+
     private val expectedUsers: List<User> = listOf(
-        User(1, "a", "a@a", "Male"),
-        User(2, "b", "b@b", "Famele")
+        User(1, "a", "a@a", Gender.MALE),
+        User(2, "b", "b@b", Gender.FEMALE)
     )
+
+    private val addedUser = User(3, "c", "c@c", Gender.MALE)
     //endregion
 
     @Before
     fun setUp() {
         every { getAllUsersInteractor.invoke(any()) } returns Observable.just(expectedUsers)
+        every { addUserInteractor.invoke(any(), any(), any()) } returns Single.just(addedUser)
         every { observer.onChanged(any()) } just Runs
         viewModel.state.observeForever(observer)
     }
@@ -70,13 +78,14 @@ class UserViewModelTest {
     }
 
     @Test
-    fun `Add user is not implemented`() {
+    fun `Add user creates a user and updates the user list forcing a refresh`() {
         //When
-        viewModel.addUser()
+        //viewModel.addUser()
 
         //Then
-        verify {
-            observer.onChanged(nrefEq(ViewModelState.Error(FailureType.NotImplemented)))
+        verifySequence {
+            addUserInteractor(any(), any(), any())
+            getAllUsersInteractor(true)
         }
     }
 

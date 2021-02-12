@@ -3,13 +3,17 @@ package com.m2f.sliidetest.SliideTest.business.data.features.users.di
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.m2f.sliidetest.SliideTest.business.data.features.users.datasource.GetUsersNetworkDatasource
+import com.m2f.sliidetest.SliideTest.business.data.features.users.datasource.PutNetworkUserDataSource
 import com.m2f.sliidetest.SliideTest.business.data.features.users.model.UserEntity
 import com.m2f.sliidetest.SliideTest.business.data.features.users.service.UserService
+import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.AddUserInteractor
+import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.DefaultAddUserInteractor
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.DefaultGetAllUsersInteractor
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.GetAllUsersInteractor
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.User
 import com.m2f.sliidetest.SliideTest.core_architecture.repository.CacheRepository
 import com.m2f.sliidetest.SliideTest.core_architecture.repository.GetRepository
+import com.m2f.sliidetest.SliideTest.core_architecture.repository.PutRepository
 import com.m2f.sliidetest.SliideTest.core_architecture.repository.datasource.VoidDeleteDataSource
 import com.m2f.sliidetest.SliideTest.core_architecture.repository.datasource.VoidPutDataSource
 import com.m2f.sliidetest.SliideTest.core_architecture.repository.datasource.storage.DeviceStorageDataSource
@@ -39,9 +43,14 @@ object UserModule {
 
     @Provides
     @Singleton
+    fun providesAddUserInteractor(interactor: DefaultAddUserInteractor): AddUserInteractor = interactor
+
+    @Provides
+    @Singleton
     fun providesUsersRepository(
         getUsersNetworkDatasource: GetUsersNetworkDatasource,
-        deviceStorageDataSource: DeviceStorageDataSource<String>
+        deviceStorageDataSource: DeviceStorageDataSource<String>,
+        putNetworkUserDataSource: PutNetworkUserDataSource
     ): CacheRepository<UserEntity> {
 
         val gson = Gson()
@@ -61,7 +70,7 @@ object UserModule {
 
         return CacheRepository(
             getMain = getUsersNetworkDatasource,
-            putMain = VoidPutDataSource(),
+            putMain = putNetworkUserDataSource,
             deleteMain = VoidDeleteDataSource(),
             getCache = deviceStorage,
             putCache = deviceStorage,
@@ -76,4 +85,12 @@ object UserModule {
         mapper: @JvmSuppressWildcards Mapper<UserEntity, User>
     ): GetRepository<User> =
         cacheRepo.withMapping(mapper)
+
+    @Provides
+    @Singleton
+    fun providesPutRepository(
+            cacheRepo: CacheRepository<UserEntity>,
+            mapper: @JvmSuppressWildcards Mapper<UserEntity, User>
+    ): PutRepository<User> =
+            cacheRepo.withMapping(mapper, VoidMapper())
 }

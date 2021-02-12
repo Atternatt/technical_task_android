@@ -4,7 +4,9 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.AddUserInteractor
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.GetAllUsersInteractor
+import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.Gender
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.User
 import com.m2f.sliidetest.SliideTest.core_architecture.addThreadPolicy
 import com.m2f.sliidetest.SliideTest.core_architecture.error.DataNotFoundException
@@ -12,49 +14,54 @@ import com.m2f.sliidetest.SliideTest.presentation.FailureType
 import com.m2f.sliidetest.SliideTest.presentation.ViewModelState
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 
 @ActivityRetainedScoped
-class UserViewModel @ViewModelInject constructor(private val getAllUsersInteractor: GetAllUsersInteractor) :
-    ViewModel() {
+class UserViewModel @ViewModelInject constructor(
+        private val getAllUsersInteractor: GetAllUsersInteractor,
+        private val addUserInteractor: AddUserInteractor) :
+        ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 
     private val _state: MutableLiveData<ViewModelState<List<User>>> =
-        MutableLiveData(ViewModelState.Loading)
+            MutableLiveData(ViewModelState.Loading)
     val state: LiveData<ViewModelState<List<User>>> = _state
 
     //region public calls
 
     fun loadUsers(forceRefresh: Boolean = true) {
         compositeDisposable.add(
-            getAllUsersInteractor(forceRefresh)
-                .addThreadPolicy()
-                .subscribeBy(
-                    onError = {
-                        //todo: @Marc -> Create a generic mapping.
-                        _state.value = ViewModelState.Error(
-                            when (it) {
-                                is DataNotFoundException -> FailureType.DataNotFound
-                                else -> FailureType.UnknownError
-                            }
-                        )
-                    },
-                    onNext = {
-                        _state.value = if (it.isEmpty()) {
-                            ViewModelState.Empty
-                        } else {
-                            ViewModelState.Success(it)
-                        }
-                    })
+                getAllUsersInteractor(forceRefresh)
+                        .addThreadPolicy()
+                        .subscribeBy(
+                                onError = {
+                                    _state.value = it.toViewState()
+                                },
+                                onNext = {
+                                    _state.value = if (it.isEmpty()) {
+                                        ViewModelState.Empty
+                                    } else {
+                                        ViewModelState.Success(it)
+                                    }
+                                })
         )
     }
 
-    fun addUser() {
-        _state.value = ViewModelState.Error(FailureType.NotImplemented)
+    fun addUser(name: String, email: String, gender: Gender) {
+        compositeDisposable += addUserInteractor(name, email, gender)
+                .flatMapObservable { getAllUsersInteractor(true) }
+                .addThreadPolicy()
+                .subscribeBy(
+                        onError = { _state.value = it.toViewState() },
+                        onNext = { _state.value = if (it.isEmpty()) {
+                            ViewModelState.Empty
+                        } else {
+                            ViewModelState.Success(it)
+                        } }
+                )
     }
 
     fun removeUser(userId: Long) {
@@ -66,4 +73,9 @@ class UserViewModel @ViewModelInject constructor(private val getAllUsersInteract
         super.onCleared()
         compositeDisposable.clear()
     }
+
+    private fun Throwable.toViewState(): ViewModelState.Error = ViewModelState.Error(when (this) {
+        is DataNotFoundException -> FailureType.DataNotFound
+        else -> FailureType.UnknownError
+    })
 }
