@@ -1,7 +1,7 @@
 package com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor
 
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.User
-import com.m2f.sliidetest.SliideTest.business.domain.features.users.queries.UsersQuery
+import com.m2f.sliidetest.SliideTest.business.domain.features.users.queries.LastUsersQuery
 import com.m2f.sliidetest.SliideTest.core_architecture.repository.GetRepository
 import com.m2f.sliidetest.SliideTest.core_architecture.repository.operation.CacheSyncOperation
 import com.m2f.sliidetest.SliideTest.core_architecture.repository.operation.MainSyncOperation
@@ -20,11 +20,11 @@ class DefaultGetAllUsersInteractorTest {
 
     private val getRepository: GetRepository<User> = mockk()
 
-    val useCaseTest = DefaultGetAllUsersInteractor(getRepository)
+    private val useCaseTest = DefaultGetAllUsersInteractor(getRepository)
 
     private val expectedUsers: List<User> = listOf(
-        User("a@a", 1, "a", "aaa"),
-        User("b@b", 2, "b", "bbb")
+        User(0L, "a", "a@a", "Male"),
+        User(1L, "b", "b@b", "Female")
     )
 
     @Before
@@ -38,12 +38,12 @@ class DefaultGetAllUsersInteractorTest {
 
     @Test
     @ExperimentalCoroutinesApi
-    fun `Interactor will use UsersQuery`() = runBlockingTest {
+    fun `Interactor will use LastUsersQuery`() = runBlockingTest {
 
         val result = useCaseTest(false)
 
         coVerify(exactly = 1) {
-            getRepository.getAll(ofType(UsersQuery::class), any())
+            getRepository.getAll(ofType(LastUsersQuery::class), any())
         }
     }
 

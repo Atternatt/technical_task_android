@@ -7,6 +7,6 @@ import com.m2f.sliidetest.SliideTest.core_architecture.repository.mapper.Mapper
 
 object UserEntityToUserMapper : Mapper<UserEntity, User> {
     override fun map(from: UserEntity): User = with(from) {
-        User(email, id, name, username)
+        User(id, name, email, gender)
     }
 }

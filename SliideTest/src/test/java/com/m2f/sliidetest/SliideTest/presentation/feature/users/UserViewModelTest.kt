@@ -27,8 +27,8 @@ class UserViewModelTest {
 
     //region mock values
     private val expectedUsers: List<User> = listOf(
-        User("a@a", 1, "a", "aaa"),
-        User("b@b", 2, "b", "bbb")
+        User(1, "a", "a@a", "Male"),
+        User(2, "b", "b@b", "Famele")
     )
     //endregion
 

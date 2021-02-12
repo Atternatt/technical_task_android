@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.m2f.sliidetest.SliideTest.business.data.features.users.datasource.GetUsersNetworkDatasource
 import com.m2f.sliidetest.SliideTest.business.data.features.users.model.UserEntity
+import com.m2f.sliidetest.SliideTest.business.data.features.users.service.UserService
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.DefaultGetAllUsersInteractor
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.GetAllUsersInteractor
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.User
@@ -19,12 +20,17 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import retrofit2.Retrofit
 import javax.inject.Singleton
 
 
 @Module
 @InstallIn(ApplicationComponent::class)
 object UserModule {
+
+    @Provides
+    @Singleton
+    fun ptovidesUserService(retrofit: Retrofit): UserService = retrofit.create(UserService::class.java)
 
     @Provides
     @Singleton
