@@ -10,6 +10,7 @@ import com.m2f.sliidetest.SliideTest.R
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.Gender
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.User
 import com.m2f.sliidetest.SliideTest.databinding.RowUserBinding
+import java.lang.ref.WeakReference
 
 private val diffCallback = object : DiffUtil.ItemCallback<User>() {
     override fun areItemsTheSame(oldItem: User, newItem: User): Boolean = oldItem == newItem
@@ -18,7 +19,7 @@ private val diffCallback = object : DiffUtil.ItemCallback<User>() {
         oldItem.id == newItem.id
 }
 
-class UsersAdaper(val menuListener: View.OnCreateContextMenuListener):
+class UsersAdaper(val menuListener: (User) -> Unit):
     ListAdapter<User, UsersAdaper.ViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -45,7 +46,7 @@ class UsersAdaper(val menuListener: View.OnCreateContextMenuListener):
                         Gender.FEMALE -> R.drawable.ic_female
                     }
             )
-            binding.root.setOnCreateContextMenuListener(menuListener)
+            binding.root.setOnLongClickListener { menuListener(item); true }
         }
     }
 }

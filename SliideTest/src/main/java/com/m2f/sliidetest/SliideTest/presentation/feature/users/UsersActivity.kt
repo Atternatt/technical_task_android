@@ -1,11 +1,13 @@
 package com.m2f.sliidetest.SliideTest.presentation.feature.users
 
 import android.os.Bundle
-import android.view.ContextMenu
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.m2f.sliidetest.SliideTest.R
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.User
@@ -23,7 +25,18 @@ class UsersActivity : AppCompatActivity(), View.OnCreateContextMenuListener, Cre
 
     private val binding by lazy { ActivityUsersBinding.inflate(layoutInflater) }
 
-    private val adaper = UsersAdaper(this)
+    private val adapter = UsersAdaper { user ->
+            MaterialAlertDialogBuilder(this)
+                    .setTitle(getString(R.string.delete_user))
+                    .setMessage(getString(R.string.remove_user_confirmation_msg))
+                    .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                        usersViewModel.removeUser(user.id)
+                    }
+                    .setNegativeButton(getString(R.string.no), null)
+                    .create()
+                    .show()
+
+    }
 
     private val loadingDialog = LoadingDialog()
 
@@ -33,7 +46,8 @@ class UsersActivity : AppCompatActivity(), View.OnCreateContextMenuListener, Cre
 
         usersViewModel.state.observe({ lifecycle }, ::render)
 
-        binding.usersList.adapter = adaper
+        binding.usersList.adapter = adapter
+        binding.usersList.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
         usersViewModel.loadUsers()
 
@@ -42,6 +56,7 @@ class UsersActivity : AppCompatActivity(), View.OnCreateContextMenuListener, Cre
                 show(supportFragmentManager, CreateUserDialog.TAG, this@UsersActivity)
             }
         }
+
 
     }
 
@@ -61,11 +76,11 @@ class UsersActivity : AppCompatActivity(), View.OnCreateContextMenuListener, Cre
     private fun loadingState(visibility: Boolean) {
         try {
             if (visibility) {
-                if(!loadingDialog.isVisible) {
+                if (!loadingDialog.isVisible) {
                     loadingDialog.show(supportFragmentManager, LoadingDialog.TAG)
                 }
             } else {
-                if(loadingDialog.isVisible) {
+                if (loadingDialog.isVisible) {
                     loadingDialog.dismiss()
                 }
             }
@@ -76,9 +91,9 @@ class UsersActivity : AppCompatActivity(), View.OnCreateContextMenuListener, Cre
 
     private fun onStateEmpty() {
         Snackbar.make(
-            binding.root,
-            getString(R.string.no_elements),
-            Snackbar.LENGTH_SHORT
+                binding.root,
+                getString(R.string.no_elements),
+                Snackbar.LENGTH_SHORT
         ).show()
 
     }
@@ -90,27 +105,16 @@ class UsersActivity : AppCompatActivity(), View.OnCreateContextMenuListener, Cre
         }
         loadingState(false)
         Snackbar.make(
-            binding.root,
-            text,
-            Snackbar.LENGTH_SHORT
+                binding.root,
+                text,
+                Snackbar.LENGTH_SHORT
         )
-            .setBackgroundTint(ContextCompat.getColor(this, R.color.error))
-            .show()
+                .setBackgroundTint(ContextCompat.getColor(this, R.color.error))
+                .show()
     }
 
     private fun onSuccessState(users: List<User>) {
         loadingState(false)
-        adaper.submitList(users)
+        adapter.submitList(users)
     }
-
-    override fun onCreateContextMenu(
-        menu: ContextMenu?,
-        v: View?,
-        menuInfo: ContextMenu.ContextMenuInfo?
-    ) {
-        //todo: select the id of the item and send it to the viewmodel to remove the user
-        usersViewModel.removeUser(0)
-        super.onCreateContextMenu(menu, v, menuInfo)
-    }
-
 }

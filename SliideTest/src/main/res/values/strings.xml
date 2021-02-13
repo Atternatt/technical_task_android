@@ -8,4 +8,8 @@
     <string name="email">Email</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
+    <string name="delete_user">Delete User</string>
+    <string name="remove_user_confirmation_msg">Are you sure you want to remove this user?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

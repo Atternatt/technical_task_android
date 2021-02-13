@@ -17,6 +17,8 @@
         <item name="colorOnBackground">@color/coreTextDark</item>
         <item name="android:includeFontPadding">false</item>
         <item name="snackbarStyle">@style/Widget.App.Snackbar</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MyApp.Dialog</item>
+
     </style>
 
     <style name="Widget.App.Button.OutlinedButton.IconOnly" parent="Widget.MaterialComponents.Button.OutlinedButton">
@@ -27,6 +29,11 @@
         <item name="android:paddingRight">12dp</item>
         <item name="android:minWidth">48dp</item>
         <item name="android:minHeight">48dp</item>
+    </style>
+
+
+    <style name="ThemeOverlay.MyApp.Dialog" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:dialogCornerRadius" tools:targetApi="p">4dp</item>
     </style>
 
     <style name="Widget.App.Snackbar" parent="Widget.MaterialComponents.Snackbar">
