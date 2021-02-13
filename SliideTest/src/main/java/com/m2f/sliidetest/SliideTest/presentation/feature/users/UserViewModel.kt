@@ -33,6 +33,7 @@ class UserViewModel @ViewModelInject constructor(
     //region public calls
 
     fun loadUsers(forceRefresh: Boolean = true) {
+        _state.value = ViewModelState.Loading
         compositeDisposable.add(
                 getAllUsersInteractor(forceRefresh)
                         .addThreadPolicy()

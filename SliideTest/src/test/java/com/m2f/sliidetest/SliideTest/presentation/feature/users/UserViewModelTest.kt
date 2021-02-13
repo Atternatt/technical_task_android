@@ -80,7 +80,7 @@ class UserViewModelTest {
     @Test
     fun `Add user creates a user and updates the user list forcing a refresh`() {
         //When
-        //viewModel.addUser()
+        viewModel.addUser(addedUser.name, addedUser.email, addedUser.gender.value)
 
         //Then
         verifySequence {
