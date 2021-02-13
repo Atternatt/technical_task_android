@@ -4,27 +4,23 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.m2f.sliidetest.SliideTest.business.data.features.users.datasource.GetUsersNetworkDatasource
 import com.m2f.sliidetest.SliideTest.business.data.features.users.datasource.PutNetworkUserDataSource
+import com.m2f.sliidetest.SliideTest.business.data.features.users.di.qualifiers.UserQualifier
 import com.m2f.sliidetest.SliideTest.business.data.features.users.model.UserEntity
 import com.m2f.sliidetest.SliideTest.business.data.features.users.service.UserService
-import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.AddUserInteractor
-import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.DefaultAddUserInteractor
-import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.DefaultGetAllUsersInteractor
-import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.GetAllUsersInteractor
+import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.*
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.User
-import com.m2f.sliidetest.SliideTest.core_architecture.repository.CacheRepository
-import com.m2f.sliidetest.SliideTest.core_architecture.repository.GetRepository
-import com.m2f.sliidetest.SliideTest.core_architecture.repository.PutRepository
+import com.m2f.sliidetest.SliideTest.core_architecture.repository.*
 import com.m2f.sliidetest.SliideTest.core_architecture.repository.datasource.VoidDeleteDataSource
-import com.m2f.sliidetest.SliideTest.core_architecture.repository.datasource.VoidPutDataSource
 import com.m2f.sliidetest.SliideTest.core_architecture.repository.datasource.storage.DeviceStorageDataSource
 import com.m2f.sliidetest.SliideTest.core_architecture.repository.datasource.storage.DeviceStorageObjectAssemblerDataSource
 import com.m2f.sliidetest.SliideTest.core_architecture.repository.mapper.*
-import com.m2f.sliidetest.SliideTest.core_architecture.repository.withMapping
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import retrofit2.Retrofit
+import java.lang.annotation.Documented
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 
@@ -44,6 +40,10 @@ object UserModule {
     @Provides
     @Singleton
     fun providesAddUserInteractor(interactor: DefaultAddUserInteractor): AddUserInteractor = interactor
+
+    @Provides
+    @Singleton
+    fun providesDeleteUserInteractor(interactor: DefaultDeleteUserInteractor): DeleteUserInteractor = interactor
 
     @Provides
     @Singleton
@@ -93,4 +93,9 @@ object UserModule {
             mapper: @JvmSuppressWildcards Mapper<UserEntity, User>
     ): PutRepository<User> =
             cacheRepo.withMapping(mapper, VoidMapper())
+
+    @Provides
+    @Singleton
+    @UserQualifier
+    fun providesDeteleRepository(cacheRepo: CacheRepository<UserEntity>): DeleteRepository = cacheRepo
 }

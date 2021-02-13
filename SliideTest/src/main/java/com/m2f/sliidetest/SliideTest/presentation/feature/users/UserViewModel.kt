@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.AddUserInteractor
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.GetAllUsersInteractor
+import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.DeleteUserInteractor
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.Gender
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.User
 import com.m2f.sliidetest.SliideTest.core_architecture.addThreadPolicy
@@ -21,9 +22,10 @@ import io.reactivex.rxkotlin.subscribeBy
 
 @ActivityRetainedScoped
 class UserViewModel @ViewModelInject constructor(
-        private val getAllUsersInteractor: GetAllUsersInteractor,
-        private val addUserInteractor: AddUserInteractor,
-        private val mainScheduler: Scheduler) :
+    private val getAllUsersInteractor: GetAllUsersInteractor,
+    private val addUserInteractor: AddUserInteractor,
+    private val deleteUserInteractor: DeleteUserInteractor,
+    private val mainScheduler: Scheduler) :
         ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()

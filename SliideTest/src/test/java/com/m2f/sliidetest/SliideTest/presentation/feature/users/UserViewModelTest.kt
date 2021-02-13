@@ -3,6 +3,7 @@ package com.m2f.sliidetest.SliideTest.presentation.feature.users
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.AddUserInteractor
+import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.DeleteUserInteractor
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.interactor.GetAllUsersInteractor
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.Gender
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.User
@@ -30,9 +31,11 @@ class UserViewModelTest {
 
     private val addUserInteractor: AddUserInteractor = mockk()
 
+    private val deleteUserInteractor: DeleteUserInteractor = mockk()
+
     private val testScheduler = TestScheduler()
 
-    private val viewModel: UserViewModel = UserViewModel(getAllUsersInteractor, addUserInteractor, testScheduler)
+    private val viewModel: UserViewModel = UserViewModel(getAllUsersInteractor, addUserInteractor, deleteUserInteractor, testScheduler)
 
     private val expectedUsers: List<User> = listOf(
         User(1, "a", "a@a", Gender.MALE),
