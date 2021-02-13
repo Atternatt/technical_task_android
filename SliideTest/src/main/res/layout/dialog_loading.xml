@@ -11,10 +11,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ProgressBar
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:padding="16dp"
+        app:srcCompat="@drawable/ic_loading"
         android:layout_gravity="center"
-        android:indeterminateTint="?attr/colorSurface"/>
+        android:tint="?attr/colorSurface"/>
 
 </androidx.cardview.widget.CardView>
