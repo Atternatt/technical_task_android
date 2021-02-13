@@ -24,7 +24,7 @@ object NetworkModule {
     @Provides
     @Singleton
     @Auth
-    fun providesAuthInterceptor(): Interceptor = AuthInterceptor
+    fun providesAuthInterceptor(authInterceptor: AuthInterceptor): Interceptor = authInterceptor
 
     @Provides
     @Singleton

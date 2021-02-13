@@ -7,7 +7,7 @@
     <color name="brandPrimaryLight">#FBF8F0</color>
     <color name="brandPrimaryDark">#271D1D</color>
     <color name="colorAccent">#323D45</color>
-    <color name="coreBackground">#FBF8F0</color>
+    <color name="coreBackground">#FFFFFF</color>
 
     <!-- Common -->
     <color name="coreTextDark">#3E3E3E</color>
