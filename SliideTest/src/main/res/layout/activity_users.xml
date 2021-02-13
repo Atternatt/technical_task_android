@@ -14,7 +14,7 @@
         android:layout_height="246dp"
         android:fitsSystemWindows="false"
         android:minHeight="?attr/actionBarSize"
-        app:header="@drawable/purple_header_anim"
+        app:header="@drawable/header_anim"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

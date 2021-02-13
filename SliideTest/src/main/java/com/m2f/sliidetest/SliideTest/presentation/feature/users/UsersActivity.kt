@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class UsersActivity : AppCompatActivity(), View.OnCreateContextMenuListener {
+class UsersActivity : AppCompatActivity(), View.OnCreateContextMenuListener, CreateUserDialog.OnUserCreatedListener {
 
     private val usersViewModel by viewModels<UserViewModel>()
 
@@ -35,9 +35,15 @@ class UsersActivity : AppCompatActivity(), View.OnCreateContextMenuListener {
         usersViewModel.loadUsers()
 
         binding.addUser.setOnClickListener {
-            //usersViewModel.addUser()
+            CreateUserDialog().apply {
+                show(supportFragmentManager, CreateUserDialog.TAG, this@UsersActivity)
+            }
         }
 
+    }
+
+    override fun onParametersSet(name: String, email: String, gender: String) {
+        usersViewModel.addUser(name, email, gender)
     }
 
     private fun render(state: ViewModelState<List<User>>) {

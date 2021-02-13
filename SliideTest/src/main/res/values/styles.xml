@@ -13,63 +13,26 @@
         <item name="colorOnSurface">@color/coreTextDark</item>
         <item name="android:textColorPrimary">@color/coreTextDark</item>
         <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="colorError">@color/error</item>
         <item name="colorOnBackground">@color/coreTextDark</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="materialButtonStyle">@style/defaultButtonStyle</item>
-        <item name="textInputStyle">@style/AppTextField</item>
-        <item name="materialCardViewStyle">@style/AppCard</item>
         <item name="snackbarStyle">@style/Widget.App.Snackbar</item>
     </style>
 
-    <style name="defaultButtonStyle" parent="@style/Widget.MaterialComponents.Button">
-        <item name="android:stateListAnimator" tools:targetApi="lollipop">@null</item>
-        <item name="android:minHeight">48dp</item>
-        <item name="android:textSize">16sp</item>
+    <style name="Widget.App.Button.OutlinedButton.IconOnly" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="iconPadding">0dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="shapeAppearance">@style/AppShapeAppearance.SmallComponent</item>
-        <item name="android:elevation">2dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
     </style>
 
     <style name="Widget.App.Snackbar" parent="Widget.MaterialComponents.Snackbar">
         <item name="actionTextColorAlpha">1</item>
         <item name="android:layout_margin">16dp</item>
         <item name="animationMode">fade</item>
-    </style>
-
-
-
-    <style name="AppTextField" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="boxBackgroundMode">filled</item>
-        <item name="boxBackgroundColor">@android:color/white</item>
-    </style>
-
-    <style name="AppCard" parent="Widget.MaterialComponents.CardView">
-        <item name="cardElevation">8dp</item>
-        <item name="cardBackgroundColor">@android:color/white</item>
-        <item name="cornerRadius">2dp</item>
-    </style>
-
-    <style name="AppShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">4dp</item>
-    </style>
-
-    <style name="AppShapeAppearance.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">8dp</item>
-        <item name="elevation">4dp</item>
-    </style>
-
-    <style name="AppShapeAppearance.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">8dp</item>
-        <item name="elevation">4dp</item>
-    </style>
-
-    <style name="ShapeAppearanceOverlay.MediumComponent.CornerSize5Percent" parent="AppShapeAppearance.MediumComponent">
-        <item name="cornerSize">5%</item>
     </style>
 
 </resources>

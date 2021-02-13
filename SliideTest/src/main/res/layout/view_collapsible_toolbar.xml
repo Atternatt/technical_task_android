@@ -16,7 +16,7 @@
         android:adjustViewBounds="false"
         android:cropToPadding="true"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/purple_header_anim" />
+        app:srcCompat="@drawable/header_anim" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/headerTitle"

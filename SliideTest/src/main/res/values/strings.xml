@@ -4,4 +4,8 @@
     <string name="onboarding_login_generic_error">Something whent wrong</string>
     <string name="feature_not_implemented">This Feature is not yet implemented</string>
     <string name="no_elements">There are no elements</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
 </resources>

@@ -22,7 +22,7 @@ class CollapsibleToolbar @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
     companion object {
-        val DEFAULT_ANIMATION_DRAWABLE = R.drawable.purple_header_anim
+        val DEFAULT_ANIMATION_DRAWABLE = R.drawable.header_anim
         const val MIN_PROGRESS_RANGE = 0.0
         const val MAX_PROGRESS_RANGE = 1.0
     }
@@ -51,7 +51,7 @@ class CollapsibleToolbar @JvmOverloads constructor(
                 .also(::setAnimationProgress)
             val drawable = a.getResourceId(
                 R.styleable.CollapsibleToolbar_header,
-                R.drawable.purple_header_anim
+                R.drawable.header_anim
             )
             setAnimationDrawable(drawable)
         } finally {

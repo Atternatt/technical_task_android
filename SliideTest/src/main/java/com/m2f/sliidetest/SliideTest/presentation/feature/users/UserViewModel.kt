@@ -50,8 +50,13 @@ class UserViewModel @ViewModelInject constructor(
         )
     }
 
-    fun addUser(name: String, email: String, gender: Gender) {
-        compositeDisposable += addUserInteractor(name, email, gender)
+    fun addUser(name: String, email: String, gender: String) {
+        val genderObj = when(gender) {
+            "Female" -> Gender.FEMALE
+            else -> Gender.MALE
+        }
+
+        compositeDisposable += addUserInteractor(name, email, genderObj)
                 .flatMapObservable { getAllUsersInteractor(true) }
                 .addThreadPolicy()
                 .subscribeBy(

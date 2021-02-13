@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.m2f.sliidetest.SliideTest.R
+import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.Gender
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.User
 import com.m2f.sliidetest.SliideTest.databinding.RowUserBinding
 
@@ -27,7 +29,7 @@ class UsersAdaper(val menuListener: View.OnCreateContextMenuListener):
     }
 
     override fun getItemId(position: Int): Long {
-        return getItem(position).id.toLong()
+        return getItem(position).id
     }
 
     inner class ViewHolder(private val binding: RowUserBinding) :
@@ -37,6 +39,12 @@ class UsersAdaper(val menuListener: View.OnCreateContextMenuListener):
             binding.name.text = item.name
             binding.mail.text = item.email
             binding.identifier.text = item.id.toString()
+            binding.gender.setImageResource(
+                    when(item.gender) {
+                        Gender.MALE -> R.drawable.ic_male
+                        Gender.FEMALE -> R.drawable.ic_female
+                    }
+            )
             binding.root.setOnCreateContextMenuListener(menuListener)
         }
     }
