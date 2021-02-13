@@ -11,6 +11,7 @@ import com.m2f.sliidetest.SliideTest.R
 import com.m2f.sliidetest.SliideTest.business.domain.features.users.model.User
 import com.m2f.sliidetest.SliideTest.databinding.ActivityUsersBinding
 import com.m2f.sliidetest.SliideTest.presentation.FailureType
+import com.m2f.sliidetest.SliideTest.presentation.LoadingDialog
 import com.m2f.sliidetest.SliideTest.presentation.ViewModelState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +24,8 @@ class UsersActivity : AppCompatActivity(), View.OnCreateContextMenuListener, Cre
     private val binding by lazy { ActivityUsersBinding.inflate(layoutInflater) }
 
     private val adaper = UsersAdaper(this)
+
+    private val loadingDialog = LoadingDialog()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,14 +59,22 @@ class UsersActivity : AppCompatActivity(), View.OnCreateContextMenuListener, Cre
     }
 
     private fun loadingState(visibility: Boolean) {
-        binding.state.setImageResource(R.drawable.ic_loading)
-        //todo: @Marc implement a good loading process
+        try {
+            if (visibility) {
+                if(!loadingDialog.isVisible) {
+                    loadingDialog.show(supportFragmentManager, LoadingDialog.TAG)
+                }
+            } else {
+                if(loadingDialog.isVisible) {
+                    loadingDialog.dismiss()
+                }
+            }
+        } finally {
+
+        }
     }
 
     private fun onStateEmpty() {
-        //todo: @Marc Implement a good empty view
-        binding.state.setImageResource(R.drawable.ic_baseline_error_outline_24)
-        binding.state.visibility = View.VISIBLE
         Snackbar.make(
             binding.root,
             getString(R.string.no_elements),

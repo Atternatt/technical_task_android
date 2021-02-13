@@ -11,6 +11,7 @@ import com.m2f.sliidetest.SliideTest.presentation.ViewModelState
 import io.mockk.*
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.schedulers.TestScheduler
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -29,7 +30,9 @@ class UserViewModelTest {
 
     private val addUserInteractor: AddUserInteractor = mockk()
 
-    private val viewModel: UserViewModel = UserViewModel(getAllUsersInteractor, addUserInteractor)
+    private val testScheduler = TestScheduler()
+
+    private val viewModel: UserViewModel = UserViewModel(getAllUsersInteractor, addUserInteractor, testScheduler)
 
     private val expectedUsers: List<User> = listOf(
         User(1, "a", "a@a", Gender.MALE),
@@ -86,6 +89,18 @@ class UserViewModelTest {
         verifySequence {
             addUserInteractor(any(), any(), any())
             getAllUsersInteractor(true)
+        }
+    }
+
+    @Test
+    fun `Add user send correct states`() {
+        //When
+        viewModel.addUser(addedUser.name, addedUser.email, addedUser.gender.value)
+
+        //Then
+        verifySequence {
+            observer.onChanged(ViewModelState.Loading)
+            observer.onChanged(nrefEq(ViewModelState.Success(expectedUsers)))
         }
     }
 

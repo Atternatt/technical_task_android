@@ -8,12 +8,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Singleton
 
 
 @Module
 @InstallIn(ApplicationComponent::class)
-class MainModule {
+object MainModule {
 
     @Provides
     @Singleton
@@ -23,4 +25,8 @@ class MainModule {
     @Singleton
     fun providesDeviceStorageDatasource(sharedPreferences: SharedPreferences): DeviceStorageDataSource<String> =
         DeviceStorageDataSource(sharedPreferences)
+
+    @Provides
+    @Singleton
+    fun providesMainScheduler(): Scheduler = AndroidSchedulers.mainThread()
 }

@@ -13,6 +13,7 @@ import com.m2f.sliidetest.SliideTest.core_architecture.error.DataNotFoundExcepti
 import com.m2f.sliidetest.SliideTest.presentation.FailureType
 import com.m2f.sliidetest.SliideTest.presentation.ViewModelState
 import dagger.hilt.android.scopes.ActivityRetainedScoped
+import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
@@ -21,7 +22,8 @@ import io.reactivex.rxkotlin.subscribeBy
 @ActivityRetainedScoped
 class UserViewModel @ViewModelInject constructor(
         private val getAllUsersInteractor: GetAllUsersInteractor,
-        private val addUserInteractor: AddUserInteractor) :
+        private val addUserInteractor: AddUserInteractor,
+        private val mainScheduler: Scheduler) :
         ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
@@ -36,7 +38,7 @@ class UserViewModel @ViewModelInject constructor(
         _state.value = ViewModelState.Loading
         compositeDisposable.add(
                 getAllUsersInteractor(forceRefresh)
-                        .addThreadPolicy()
+                        .addThreadPolicy(mainScheduler)
                         .subscribeBy(
                                 onError = {
                                     _state.value = it.toViewState()
@@ -52,21 +54,25 @@ class UserViewModel @ViewModelInject constructor(
     }
 
     fun addUser(name: String, email: String, gender: String) {
-        val genderObj = when(gender) {
+        _state.value = ViewModelState.Loading
+
+        val genderObj = when (gender) {
             "Female" -> Gender.FEMALE
             else -> Gender.MALE
         }
 
         compositeDisposable += addUserInteractor(name, email, genderObj)
                 .flatMapObservable { getAllUsersInteractor(true) }
-                .addThreadPolicy()
+                .addThreadPolicy(mainScheduler)
                 .subscribeBy(
                         onError = { _state.value = it.toViewState() },
-                        onNext = { _state.value = if (it.isEmpty()) {
-                            ViewModelState.Empty
-                        } else {
-                            ViewModelState.Success(it)
-                        } }
+                        onNext = {
+                            _state.value = if (it.isEmpty()) {
+                                ViewModelState.Empty
+                            } else {
+                                ViewModelState.Success(it)
+                            }
+                        }
                 )
     }
 

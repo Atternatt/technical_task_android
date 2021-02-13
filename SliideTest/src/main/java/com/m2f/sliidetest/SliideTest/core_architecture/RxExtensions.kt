@@ -43,13 +43,5 @@ fun <T> FlowableEmitter<T>.checkMainThread(): Boolean {
     return true
 }
 
-fun <Type> Observable<Type>.addThreadPolicy() = this.subscribeOn(Schedulers.io()).observeOn(
-    AndroidSchedulers.mainThread())
-
-fun <Type> Flowable<Type>.addThreadPolicy() = this.subscribeOn(Schedulers.io()).observeOn(
-    AndroidSchedulers.mainThread())
-fun <Type> Maybe<Type>.addThreadPolicy() = this.subscribeOn(Schedulers.io()).observeOn(
-    AndroidSchedulers.mainThread())
-fun <Type> Single<Type>.addThreadPolicy() = this.subscribeOn(Schedulers.io()).observeOn(
-    AndroidSchedulers.mainThread())
-fun Completable.addThreadPolicy() = this.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+fun <Type> Observable<Type>.addThreadPolicy(observeOn: Scheduler = AndroidSchedulers.mainThread()) = this.subscribeOn(Schedulers.io()).observeOn(
+        observeOn)
