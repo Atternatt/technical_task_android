@@ -2,6 +2,7 @@ package com.m2f.sliidetest.SliideTest.business.data.features.users.di
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.m2f.sliidetest.SliideTest.business.data.features.users.datasource.DeleteUserNetworkDatasource
 import com.m2f.sliidetest.SliideTest.business.data.features.users.datasource.GetUsersNetworkDatasource
 import com.m2f.sliidetest.SliideTest.business.data.features.users.datasource.PutNetworkUserDataSource
 import com.m2f.sliidetest.SliideTest.business.data.features.users.di.qualifiers.UserQualifier
@@ -50,7 +51,8 @@ object UserModule {
     fun providesUsersRepository(
         getUsersNetworkDatasource: GetUsersNetworkDatasource,
         deviceStorageDataSource: DeviceStorageDataSource<String>,
-        putNetworkUserDataSource: PutNetworkUserDataSource
+        putNetworkUserDataSource: PutNetworkUserDataSource,
+        deleteUserNetworkDatasource: DeleteUserNetworkDatasource
     ): CacheRepository<UserEntity> {
 
         val gson = Gson()
@@ -71,7 +73,7 @@ object UserModule {
         return CacheRepository(
             getMain = getUsersNetworkDatasource,
             putMain = putNetworkUserDataSource,
-            deleteMain = VoidDeleteDataSource(),
+            deleteMain = deleteUserNetworkDatasource,
             getCache = deviceStorage,
             putCache = deviceStorage,
             deleteCache = deviceStorage

@@ -5,5 +5,6 @@ enum class FailureType {
     ConnectionError,
     DataNotFound,
     NotImplemented,
-    UnknownError
+    UnknownError,
+    ActionFailed
 }

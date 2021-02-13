@@ -2,9 +2,9 @@ package com.m2f.sliidetest.SliideTest.core_architecture
 
 import android.os.Looper
 import androidx.annotation.CheckResult
-import io.reactivex.*
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.FlowableEmitter
+import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
 
 /**
  * @author Marc Moreno
@@ -43,5 +43,7 @@ fun <T> FlowableEmitter<T>.checkMainThread(): Boolean {
     return true
 }
 
-fun <Type> Observable<Type>.addThreadPolicy(observeOn: Scheduler = AndroidSchedulers.mainThread()) = this.subscribeOn(Schedulers.io()).observeOn(
-        observeOn)
+fun <Type> Observable<Type>.addThreadPolicy(schedulerProvider: SchedulerProvider) =
+    this.subscribeOn(schedulerProvider.io()).observeOn(
+        schedulerProvider.ui()
+    )
