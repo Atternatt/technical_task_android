@@ -55,7 +55,7 @@ class UsersActivity : AppCompatActivity(), View.OnCreateContextMenuListener,
             )
         )
 
-        usersViewModel.loadUsers(forceRefresh = false)
+        usersViewModel.loadUsers(forceRefresh = true)
 
         binding.addUser.setOnClickListener {
             CreateUserDialog().apply {
