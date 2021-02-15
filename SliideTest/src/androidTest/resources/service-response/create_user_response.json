@@ -1,0 +1,13 @@
+{
+  "code": 201,
+  "meta": null,
+  "data": {
+    "id": 1653,
+    "name": "Tenali Ramakrishna",
+    "email": "tenali.ramakrishna@15ceeeeee.com",
+    "gender": "Male",
+    "status": "Active",
+    "created_at": "2021-02-13T03:34:12.608+05:30",
+    "updated_at": "2021-02-13T03:34:12.608+05:30"
+  }
+}

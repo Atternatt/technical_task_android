@@ -4,10 +4,12 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.m2f.sliidetest.SliideTest.BuildConfig
 import com.m2f.sliidetest.SliideTest.business.data.features.users.Auth
+import com.m2f.sliidetest.SliideTest.core_architecture.SchedulerProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -61,14 +63,15 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRxJavaCallAdapterFactory(): RxJava2CallAdapterFactory {
-        return RxJava2CallAdapterFactory.create()
+    fun provideRxJavaCallAdapterFactory(schedulerProvider: SchedulerProvider): RxJava2CallAdapterFactory {
+        return RxJava2CallAdapterFactory.createWithScheduler(schedulerProvider.io())
     }
 
     @Provides
     @Singleton
     fun provideRetrofitBuilder(
             okHttpClient: OkHttpClient,
+            url: HttpUrl,
             gson: Gson,
             rxJavaCallAdapterFactory: RxJava2CallAdapterFactory
     ): Retrofit {
@@ -77,7 +80,7 @@ object NetworkModule {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(rxJavaCallAdapterFactory)
                 .client(okHttpClient)
-                .baseUrl(BuildConfig.API_URL)
+                .baseUrl(url)
                 .build()
     }
 }
