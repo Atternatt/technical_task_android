@@ -31,10 +31,6 @@ object UserModule {
 
     @Provides
     @Singleton
-    fun ptovidesUserService(retrofit: Retrofit): UserService = retrofit.create(UserService::class.java)
-
-    @Provides
-    @Singleton
     fun providesGetUsersInterctor(interactor: DefaultGetAllUsersInteractor): GetAllUsersInteractor =
         interactor
 

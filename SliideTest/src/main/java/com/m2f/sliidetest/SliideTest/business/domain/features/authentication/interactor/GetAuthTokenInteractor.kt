@@ -3,7 +3,7 @@ package com.m2f.sliidetest.SliideTest.business.domain.features.authentication.in
 import com.m2f.sliidetest.SliideTest.business.domain.features.authentication.model.AuthToken
 import io.reactivex.Single
 
-interface GetAuthTokenInteractor {
+sealed interface GetAuthTokenInteractor {
 
     operator fun invoke(): Single<AuthToken>
 }

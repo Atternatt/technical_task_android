@@ -28,27 +28,4 @@ object MainModule {
     fun providesDeviceStorageDatasource(sharedPreferences: SharedPreferences): DeviceStorageDataSource<String> =
         DeviceStorageDataSource(sharedPreferences)
 
-    @Provides
-    @Singleton
-    fun providesMainScheduler(): SchedulerProvider = object : SchedulerProvider {
-        override fun ui(): Scheduler {
-            return AndroidSchedulers.mainThread()
-        }
-
-        override fun computation(): Scheduler {
-            return Schedulers.computation()
-        }
-
-        override fun trampoline(): Scheduler {
-            return Schedulers.trampoline()
-        }
-
-        override fun newThread(): Scheduler {
-            return Schedulers.newThread()
-        }
-
-        override fun io(): Scheduler {
-            return Schedulers.io()
-        }
-    }
 }

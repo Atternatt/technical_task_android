@@ -30,6 +30,8 @@ dependencies {
 
     Test.bucketTestImpl.forEach { testImplementation(it) }
     Test.bucketAndroidTestImpl.forEach { androidTestImplementation(it) }
+    DI.implementatons.forEach { androidTestImplementation(it) }
+    DI.apt.forEach { kaptAndroidTest(it) }
     Test.bucketDebugImpl.forEach { debugImplementation(it) }
 }
 
@@ -53,6 +55,10 @@ android {
 
     testOptions {
         unitTests.isReturnDefaultValues = true
+    }
+
+    hilt {
+        enableTransformForLocalTests = true
     }
 
     signingConfigs {
@@ -106,6 +112,8 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+        languageVersion = "1.5"
+        apiVersion = "1.5"
     }
 }
 

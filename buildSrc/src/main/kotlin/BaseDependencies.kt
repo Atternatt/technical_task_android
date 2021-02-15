@@ -4,7 +4,7 @@ interface DependencyBucket {
 }
 
 object Base: DependencyBucket {
-    private object Version {
+    internal object Version {
         const val jetpack = "1.1.0"
         const val ktxCore = "1.2.0"
         const val compiler = "1.0.0"
@@ -31,7 +31,7 @@ object Base: DependencyBucket {
 
 object Test {
 
-    private object Version {
+    internal object Version {
         const val junit4 = "4.12"
         const val androidxTest = "1.1.1"
         const val androidxCoreTest = "2.1.0"
@@ -63,25 +63,26 @@ object Test {
     private const val rules = "androidx.test:rules:${Version.testCore}"
     private const val runner = "androidx.test:runner:${Version.testCore}"
     private const val robolectric = "org.robolectric:robolectric:${Version.robolectric}"
+    private const val hilt = "com.google.dagger:hilt-android-testing:${DI.Version.hilt}"
 
-    val bucketTestImpl = listOf(junit4, mockk, mockWebServer, assertJ, kotlinTestJUnit, coreTesting, coroutinesTest, testCoreKtx, espresso, espressoIntents, espressoContrib, testRunner, robolectric, testCore, runner, rules)
+    val bucketTestImpl = listOf(junit4, mockk, mockWebServer, assertJ, kotlinTestJUnit, coreTesting, coroutinesTest, testCoreKtx, espresso, espressoIntents, espressoContrib, testRunner, robolectric, testCore, runner, rules, hilt)
 
-    val bucketAndroidTestImpl = listOf(testRunner, junitKtx, testCoreKtx, mockkAndroid, coreTesting, kotlinTest, espresso,espressoContrib, rules, runner, testCore)
+    val bucketAndroidTestImpl = listOf(testRunner, junitKtx, testCoreKtx, mockkAndroid, coreTesting, kotlinTest, espresso,espressoContrib, rules, runner, testCore, hilt, mockWebServer)
 
     val bucketDebugImpl = listOf(testCore, testCoreKtx, rules, runner)
 }
 
 
 object DI: DependencyBucket{
-    private object Version {
+    internal object Version {
         const val hilt = "2.28-alpha"
         const val hiltLifecycle = "1.0.0-alpha02"
     }
 
-    private val hilt = "com.google.dagger:hilt-android:${Version.hilt}"
-    private val hiltLifecycle = "androidx.hilt:hilt-lifecycle-viewmodel:${Version.hiltLifecycle}"
-    private val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Version.hilt}"
-    private val hiltLifeCycleCompiler = "androidx.hilt:hilt-compiler:${Version.hiltLifecycle}"
+    private const val hilt = "com.google.dagger:hilt-android:${Version.hilt}"
+    private const val hiltLifecycle = "androidx.hilt:hilt-lifecycle-viewmodel:${Version.hiltLifecycle}"
+    private const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Version.hilt}"
+    private const val hiltLifeCycleCompiler = "androidx.hilt:hilt-compiler:${Version.hiltLifecycle}"
 
     override val implementatons = listOf(hilt, hiltLifecycle)
     override val apt = listOf(hiltCompiler, hiltLifeCycleCompiler)
@@ -90,7 +91,7 @@ object DI: DependencyBucket{
 
 object UI: DependencyBucket{
 
-    private object Version {
+    internal object Version {
         const val androidx_recyclerview = "1.2.0-alpha05"
         const val constraintLayout = "2.0.0"
         const val material = "1.3.0-alpha02"
@@ -111,7 +112,7 @@ object UI: DependencyBucket{
 
 object HTTP : DependencyBucket{
 
-    private object Version {
+    internal object Version {
         const val okhttp_interceptor = "4.4.0"
         const val retrofit_version = "2.7.2"
         const val rxJavaAdapter = "1.0.0"
@@ -134,7 +135,7 @@ object HTTP : DependencyBucket{
 
 object Coroutines: DependencyBucket {
 
-    private object Version {
+    internal object Version {
         const val coroutines = "1.3.7"
     }
 
@@ -151,7 +152,7 @@ object Coroutines: DependencyBucket {
 
 object LiveData: DependencyBucket {
 
-    private object Version {
+    internal object Version {
         const val archComponents = "2.2.0"
     }
 
@@ -165,7 +166,7 @@ object LiveData: DependencyBucket {
 }
 
 object Rx: DependencyBucket {
-    private object Version {
+    internal object Version {
         const val rxJava2 = "2.2.4"
         const val rxAndroid = "2.1.0"
         const val rxKotlin = "2.3.0"

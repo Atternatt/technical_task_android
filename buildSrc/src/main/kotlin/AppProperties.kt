@@ -1,9 +1,9 @@
-const val kotlinVersion = "1.4.21"
+const val kotlinVersion = "1.4.30"
 
 object BuildPlugins {
 
     object Version {
-        const val buildTools = "4.0.1"
+        const val buildTools = "4.1.1"
         const val hilt = "2.28-alpha"
     }
 
@@ -34,5 +34,5 @@ object AndroidSdk {
 }
 
 object Testing {
-    const val testRunner = "androidx.test.runner.AndroidJUnitRunner"
+    const val testRunner = "com.m2f.sliidetest.SliideTest.CustomTestRunner"
 }
